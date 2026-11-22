@@ -1,0 +1,21 @@
+[project]
+name = "fdf-python"
+version = "1.0.0"
+description = "FdF — каркасная 3D-модель карты высот (лабораторная работа)"
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "N", "SIM", "RUF"]
+# Сообщения и комментарии пишутся по-русски: кириллица — не «похожие символы».
+ignore = ["RUF001", "RUF002", "RUF003"]
