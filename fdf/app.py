@@ -7,7 +7,7 @@ import math
 import tkinter as tk
 
 from fdf.model import Map
-from fdf.projection import ISO_ANGLE, Camera, segments
+from fdf.projection import ISO_ANGLE, Camera, ColorMode, segments
 
 BACKGROUND = "#0E1729"
 HUD_COLOR = "#7A8599"
@@ -21,7 +21,7 @@ ANGLE_MAX = math.pi / 2
 
 HELP = (
     "колесо — масштаб · стрелки — сдвиг · +/− — высота · "
-    "Q/E — угол · P — вид сверху · R — сброс · Esc — выход"
+    "Q/E — угол · P — вид сверху · C — цвет · R — сброс · Esc — выход"
 )
 
 
@@ -40,6 +40,7 @@ class App:
         self.width = width
         self.height = height
         self._redraw_pending = False
+        self.color_mode: ColorMode = "height"
 
         self.root.protocol("WM_DELETE_WINDOW", self.close)
         self.root.bind("<Escape>", lambda _event: self.close())
@@ -96,6 +97,8 @@ class App:
         elif keysym.lower() == "p":
             camera.parallel = not camera.parallel
             camera.fit(self.map, self.width, self.height)
+        elif keysym.lower() == "c":
+            self.color_mode = "file" if self.color_mode == "height" else "height"
         elif keysym.lower() == "r":
             camera.z_scale = 1.0
             camera.angle = ISO_ANGLE
@@ -115,7 +118,7 @@ class App:
         """Перерисовать каркас."""
         self._redraw_pending = False
         self.canvas.delete("all")
-        for seg in segments(self.map, self.camera):
+        for seg in segments(self.map, self.camera, self.color_mode):
             self.canvas.create_line(seg.x0, seg.y0, seg.x1, seg.y1, fill=seg.color)
         self.canvas.create_text(
             12,
@@ -131,7 +134,8 @@ class App:
         m = self.map
         c = self.camera
         view = "сверху" if c.parallel else f"угол {math.degrees(c.angle):.0f}°"
+        colors = "по высоте" if self.color_mode == "height" else "из файла"
         return (
             f"{m.width}×{m.height} · z = {m.z_min}..{m.z_max} · "
-            f"z_scale {c.z_scale:.2f} · {view}\n{HELP}"
+            f"z_scale {c.z_scale:.2f} · {view} · цвет {colors}\n{HELP}"
         )
