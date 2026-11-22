@@ -1,6 +1,6 @@
 # FdF — каркасная 3D-модель карты высот
 
-[![CI](https://github.com/<логин>/fdf-python/actions/workflows/ci.yml/badge.svg)](https://github.com/<логин>/fdf-python/actions/workflows/ci.yml)
+[![CI](https://github.com/morozovvovax7/fdf-python/actions/workflows/ci.yml/badge.svg)](https://github.com/morozovvovax7/fdf-python/actions/workflows/ci.yml)
 
 ![скриншот](docs/screenshot.png)
 
@@ -20,7 +20,7 @@
 ставится вместе с Python; в Linux — пакетом `python3-tk`.
 
 ```bash
-git clone https://github.com/<логин>/fdf-python.git
+git clone https://github.com/morozovvovax7/fdf-python.git
 cd fdf-python
 python -m venv .venv
 source .venv/bin/activate          # Windows: .venv\Scripts\activate
