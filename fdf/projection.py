@@ -12,6 +12,8 @@ from fdf.model import Map, Point
 
 ISO_ANGLE = math.pi / 6  # 30°
 FIT_MARGIN = 0.9
+MIN_SCALE = 1e-3
+MAX_SCALE = 1e5
 
 DEFAULT_COLOR = "#FFFFFF"
 
@@ -41,9 +43,12 @@ class Camera:
     offset_y: float = 0.0
     z_scale: float = 1.0
     angle: float = ISO_ANGLE
+    parallel: bool = False  # вид сверху: X = x, Y = y без учёта z
 
     def project_raw(self, point: Point) -> tuple[float, float]:
         """Координаты (x′, y′) на плоскости до масштабирования и сдвига."""
+        if self.parallel:
+            return float(point.x), float(point.y)
         px = (point.x - point.y) * math.cos(self.angle)
         py = (point.x + point.y) * math.sin(self.angle) - point.z * self.z_scale
         return px, py
@@ -82,6 +87,19 @@ class Camera:
         # Карта из одной точки (или вырожденная) — масштаб не важен.
         self.scale = min(candidates) * FIT_MARGIN if candidates else 1.0
         self.center(map_, width, height)
+
+    def zoom(self, factor: float, cx: float, cy: float) -> None:
+        """Умножить scale на factor, оставив точку экрана (cx, cy) на месте."""
+        new_scale = min(max(self.scale * factor, MIN_SCALE), MAX_SCALE)
+        k = new_scale / self.scale
+        self.offset_x = cx - (cx - self.offset_x) * k
+        self.offset_y = cy - (cy - self.offset_y) * k
+        self.scale = new_scale
+
+    def move(self, dx: float, dy: float) -> None:
+        """Сдвинуть изображение на (dx, dy) пикселей."""
+        self.offset_x += dx
+        self.offset_y += dy
 
 
 def point_color(point: Point) -> str:
