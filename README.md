@@ -1,5 +1,7 @@
 # FdF — каркасная 3D-модель карты высот
 
+[![CI](https://github.com/morozovvovax7/fdf-python/actions/workflows/ci.yml/badge.svg)](https://github.com/morozovvovax7/fdf-python/actions/workflows/ci.yml)
+
 ![скриншот](docs/screenshot.png)
 
 ## Описание
@@ -18,7 +20,7 @@
 ставится вместе с Python; в Linux — пакетом `python3-tk`.
 
 ```bash
-git clone https://github.com/<логин>/fdf-python.git
+git clone https://github.com/morozovvovax7/fdf-python.git
 cd fdf-python
 python -m venv .venv
 source .venv/bin/activate          # Windows: .venv\Scripts\activate
@@ -103,6 +105,9 @@ pytest -q
 mypy --strict fdf main.py
 ruff check .
 ```
+
+Те же проверки запускает GitHub Actions (`.github/workflows/ci.yml`) при каждом
+push и pull request; статус — на бейдже вверху страницы.
 
 ## Лицензия
 
