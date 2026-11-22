@@ -60,7 +60,8 @@ def test_fit_single_point_map() -> None:
 def test_segments_one_per_edge(elem: Map) -> None:
     camera = Camera()
     camera.fit(elem, 500, 500)
-    assert len(list(segments(elem, camera))) == len(list(elem.edges()))
+    # Без цветов в файле и без раскраски по высоте все рёбра одного цвета.
+    assert len(list(segments(elem, camera, color_mode="file"))) == len(list(elem.edges()))
 
 
 def test_zoom_keeps_anchor_point_fixed(elem: Map) -> None:
