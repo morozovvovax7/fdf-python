@@ -8,8 +8,8 @@ import tkinter as tk
 from fdf.model import Map
 from fdf.projection import Camera, segments
 
-BACKGROUND = "#000000"
-HUD_COLOR = "#A0A0A0"
+BACKGROUND = "#0E1729"
+HUD_COLOR = "#7A8599"
 
 
 class App:
@@ -59,5 +59,15 @@ class App:
         for seg in segments(self.map, self.camera):
             self.canvas.create_line(seg.x0, seg.y0, seg.x1, seg.y1, fill=seg.color)
         self.canvas.create_text(
-            10, 10, anchor=tk.NW, fill=HUD_COLOR, font=("TkDefaultFont", 10), text="Esc — выход"
+            12,
+            self.height - 12,
+            anchor=tk.SW,
+            fill=HUD_COLOR,
+            font=("TkFixedFont", 10),
+            text=self.hud_text(),
         )
+
+    def hud_text(self) -> str:
+        """Строка состояния в нижнем левом углу окна."""
+        m = self.map
+        return f"{m.width}×{m.height} · z = {m.z_min}..{m.z_max} · Esc — выход"
