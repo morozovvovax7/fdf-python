@@ -1,5 +1,7 @@
 # FdF — каркасная 3D-модель карты высот
 
+[![CI](https://github.com/<логин>/fdf-python/actions/workflows/ci.yml/badge.svg)](https://github.com/<логин>/fdf-python/actions/workflows/ci.yml)
+
 ![скриншот](docs/screenshot.png)
 
 ## Описание
@@ -103,6 +105,9 @@ pytest -q
 mypy --strict fdf main.py
 ruff check .
 ```
+
+Те же проверки запускает GitHub Actions (`.github/workflows/ci.yml`) при каждом
+push и pull request; статус — на бейдже вверху страницы.
 
 ## Лицензия
 
